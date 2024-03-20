@@ -3,5 +3,5 @@ namespaces:
 - dev
 - stage
 - prod
-repos:
-- demo-app-deploy
+# repos:
+# - demo-app-deploy

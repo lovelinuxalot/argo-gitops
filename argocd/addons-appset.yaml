@@ -13,7 +13,7 @@ spec:
           - clusters:
               selector:
                 matchExpressions:
-                - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
+                - {key: 'a52/cluster-name', operator: NotIn, values: [in-cluster]}
   template:
     metadata:
       name: 'addon-{{name}}-{{addonChart}}'
@@ -23,7 +23,7 @@ spec:
         helm:
           valueFiles:
           - '../../clusters/{{name}}/addons-values.yaml'
-        repoURL: 'https://github.com/<username>/control-plane'
+        repoURL: 'https://github.com/lovelinuxalot/argo-gitops'
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
