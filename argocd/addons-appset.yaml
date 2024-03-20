@@ -4,33 +4,63 @@ metadata:
   name: addons
 spec:
   generators:
+    # - matrix:
+    #     generators:
+    #       - list:
+    #           elements: # from /charts/
+    #             - addonChart: external-secrets
+    #             - addonChart: kyverno
+    #       - clusters:
+    #           selector:
+    #             matchExpressions:
+    #               - {
+    #                   key: "a52/cluster-name",
+    #                   operator: NotIn,
+    #                   values: [in-cluster],
+    #                 }
     - matrix:
         generators:
           - list:
-              elements:  # from /charts/
-              - addonChart: external-secrets
-              - addonChart: kyverno
+              elements:
+                - addonChart: reloader
+                - addonChart: external-dns
+          - clusters: {}
+    - matrix:
+        generators:
+          - list:
+              elements:
+                - addonChart: cert-manager
           - clusters:
               selector:
                 matchExpressions:
-                - {key: 'a52/cluster-name', operator: NotIn, values: [in-cluster]}
+                  - {
+                      key: "a52/cluster-name",
+                      operator: In,
+                      values: [kind-cb],
+                    }
+    # - list:
+    #     elements:
+    #       - addonChart: reloader
+    #       - addonChart: external-dns
+          
+
   template:
     metadata:
-      name: 'addon-{{name}}-{{addonChart}}'
+      name: "addon-{{name}}-{{addonChart}}"
     spec:
       project: default
       source:
         helm:
           valueFiles:
-          - '../../clusters/{{name}}/addons-values.yaml'
-        repoURL: 'https://github.com/lovelinuxalot/argo-gitops'
+            - "../../clusters/{{name}}/addons-values.yaml"
+        repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
-        namespace: '{{addonChart}}'
-        name: '{{name}}'
+        namespace: "{{addonChart}}"
+        name: "{{name}}"
       syncPolicy:
         automated: {}
         syncOptions:
           - CreateNamespace=true
-          - ServerSideApply=true  # Big CRDs.
+          - ServerSideApply=true # Big CRDs.
