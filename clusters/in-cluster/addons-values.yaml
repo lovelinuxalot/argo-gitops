@@ -1,0 +1,6 @@
+# external-secrets: {}
+# kyverno: {}
+reloader:
+  podMonitor:
+    enabled: true
+external-dns: {}
