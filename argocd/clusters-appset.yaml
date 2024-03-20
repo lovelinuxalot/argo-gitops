@@ -4,10 +4,11 @@ metadata:
   name: clusters
 spec:
   generators:
-  - clusters:
-      selector:
-        matchExpressions:
-        - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
+  - clusters: {}
+  # - clusters:
+  #     selector:
+  #       matchExpressions:
+  #       - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
   template:
     metadata:
       name: 'cluster-{{name}}'
