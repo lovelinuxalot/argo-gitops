@@ -1,17 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: prometheus
+  name: ingress
   annotations:
-    argocd.argoproj.io/sync-wave: "3"
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   generators:
     - matrix:
         generators:
           - list:
               elements:
-                # - addonChart: prometheus
-                - addonChart: promtail
+                # - addonChart: external-dns
+                - addonChart: cert-manager
+                # - addonChart: ingress-nginx
           - clusters: {}
   template:
     metadata:
@@ -21,17 +22,17 @@ spec:
       source:
         helm:
           valueFiles:
-            - "../../clusters/common/addons-values.yaml"
+            - "../../clusters/common/ingress-values.yaml"
           parameters:
-          - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
+          - name: "nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
             value: "{{name}}"
-          - name: "promtail.config.snippets.extraRelabelConfigs[1].replacement"
+          - name: "nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
             value: "{{name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
-        namespace: "monitoring"
+        namespace: "ingress"
         name: "{{name}}"
       syncPolicy:
         automated: {}
