@@ -26,7 +26,7 @@ spec:
                 # - addonChart: external-dns
                 # - addonChart: cert-manager
                 - addonChart: ingress-nginx
-                - addonChart: prometheus
+                # - addonChart: prometheus
 
           - clusters: {}
     # - matrix:
