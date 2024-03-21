@@ -55,18 +55,18 @@ spec:
       project: default
       source:
         helm:
+          valueFiles:
+            - "../../clusters/common/addons-values.yaml"
           parameters:
           - name: "ingress-nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
             value: "{{name}}"
           - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
             value: "{{name}}"
-          valueFiles:
-            - "../../clusters/common/addons-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
-        namespace: "{{addonChart}}"
+        namespace: "default"
         name: "{{name}}"
       syncPolicy:
         automated: {}
