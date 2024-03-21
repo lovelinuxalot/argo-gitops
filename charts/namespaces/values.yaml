@@ -1,4 +1,4 @@
 namespaces:
-- dev
-- stage
-- prod
+- system
+- ingress
+- monitoring

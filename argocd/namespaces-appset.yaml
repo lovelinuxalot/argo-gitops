@@ -1,9 +1,9 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: clusters
+  name: namespaces
   metadata:
-    argocd.argoproj.io/sync-wave: "1"
+    argocd.argoproj.io/sync-wave: "-1"
 spec:
   generators:
   - clusters: {}
@@ -13,13 +13,13 @@ spec:
   #       - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
   template:
     metadata:
-      name: 'cluster-{{name}}'
+      name: 'namespaces-{{name}}'
     spec:
       project: default
       source:
         repoURL: https://github.com/lovelinuxalot/argo-gitops
         targetRevision: HEAD
-        path: 'clusters/common'
+        path: 'charts/namespaces'
         directory:
           recurse: true
       destination:
