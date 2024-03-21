@@ -22,6 +22,8 @@ spec:
           parameters:
           - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
             value: "{{name}}"
+          valueFiles:
+            - "../../clusters/common/addons-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
