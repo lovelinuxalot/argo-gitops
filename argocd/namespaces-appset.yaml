@@ -20,8 +20,7 @@ spec:
         repoURL: https://github.com/lovelinuxalot/argo-gitops
         targetRevision: HEAD
         path: 'charts/namespaces'
-        directory:
-          recurse: true
+        helm: {}
       destination:
         name: '{{name}}'
         namespace: '*'
