@@ -58,9 +58,9 @@ spec:
           valueFiles:
             - "../../clusters/common/addons-values.yaml"
           parameters:
-          - name: "ingress-nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
+          - name: "nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
             value: "{{name}}"
-          - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
+          - name: "nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
             value: "{{name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
