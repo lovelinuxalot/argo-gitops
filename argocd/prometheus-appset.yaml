@@ -18,10 +18,14 @@ spec:
       argocd.argoproj.io/sync-wave: "3"
     spec:
       project: default
-      source:
-        helm:
+      sources:
+      - helm:
           valueFiles:
             - "../../clusters/common/addons-values.yaml"
+        repoURL: "https://github.com/lovelinuxalot/argo-gitops"
+        path: charts/{{addonChart}}
+        targetRevision: HEAD
+      - helm:
           valuesObject:
             prometheus:
               prometheus:
