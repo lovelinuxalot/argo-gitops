@@ -22,22 +22,24 @@ spec:
         generators:
           - list:
               elements:
-                - addonChart: reloader
-                - addonChart: external-dns
+                # - addonChart: reloader
+                # - addonChart: external-dns
+                # - addonChart: cert-manager
+                - addonChart: ingress-nginx
+
           - clusters: {}
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - addonChart: cert-manager
-          - clusters:
-              selector:
-                matchExpressions:
-                  - {
-                      key: "a52/cluster-name",
-                      operator: In,
-                      values: [cb],
-                    }
+    # - matrix:
+    #     generators:
+    #       - list:
+    #           elements:
+    #       - clusters:
+    #           selector:
+    #             matchExpressions:
+    #               - {
+    #                   key: "a52/cluster-name",
+    #                   operator: In,
+    #                   values: [cb],
+    #                 }
     # - list:
     #     elements:
     #       - addonChart: reloader
@@ -51,7 +53,16 @@ spec:
       source:
         helm:
           valueFiles:
-            - "../../clusters/{{name}}/addons-values.yaml"
+            - "../../clusters/common/addons-values.yaml"
+          valuesObject:
+            ingress-nginx:
+              controller:
+                metrics:
+                  serviceMonitor:
+                    additionalLabels:
+                      suite: "{{name}}"
+                    metricRelabelings:
+                        replacement: "{{name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
