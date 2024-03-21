@@ -27,8 +27,7 @@ spec:
                 # - addonChart: reloader
                 # - addonChart: external-dns
                 # - addonChart: cert-manager
-                - addonChart: ingress-nginx
-                # - addonChart: prometheus
+                # - addonChart: ingress-nginx
 
           - clusters: {}
     # - matrix:

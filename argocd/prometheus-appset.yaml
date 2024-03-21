@@ -10,7 +10,8 @@ spec:
         generators:
           - list:
               elements:
-                - addonChart: prometheus
+                # - addonChart: prometheus
+                - addonChart: promtail
           - clusters: {}
   template:
     metadata:
@@ -23,6 +24,8 @@ spec:
             - "../../clusters/common/addons-values.yaml"
           parameters:
           - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
+            value: "{{name}}"
+          - name: "promtail.config.snippets.extraRelabelConfigs[1].replacement"
             value: "{{name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
