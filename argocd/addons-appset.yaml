@@ -36,17 +36,16 @@ spec:
                   - {
                       key: "a52/cluster-name",
                       operator: In,
-                      values: [kind-cb],
+                      values: [cb],
                     }
     # - list:
     #     elements:
     #       - addonChart: reloader
     #       - addonChart: external-dns
-          
 
   template:
     metadata:
-      name: "addon-{{name}}-{{addonChart}}"
+      name: "{{name}}-{{addonChart}}"
     spec:
       project: default
       source:
