@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
   name: addons
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
 spec:
   generators:
     # - matrix:
@@ -49,8 +51,6 @@ spec:
   template:
     metadata:
       name: "{{name}}-{{addonChart}}"
-    annotations:
-      argocd.argoproj.io/sync-wave: "5"
     spec:
       project: default
       source:
