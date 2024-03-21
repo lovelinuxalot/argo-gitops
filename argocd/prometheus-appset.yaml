@@ -19,13 +19,9 @@ spec:
       project: default
       source:
         helm:
-          valuesObject:
-            prometheus:
-              prometheus:
-                prometheusSpec:
-                  serviceMonitor:
-                    externalLabels:
-                      cluster: "{{name}}"
+          parameters:
+          - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
+            value: "{{name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
