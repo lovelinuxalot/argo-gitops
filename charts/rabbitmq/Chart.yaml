@@ -5,4 +5,4 @@ version: 1.0.0
 dependencies:
   - name: rabbitmq-cluster-operator
     version: 3.1.3
-    repository: registry-1.docker.io/bitnamicharts
+    repository: oci://registry-1.docker.io/bitnamicharts
