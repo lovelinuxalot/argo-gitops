@@ -74,8 +74,8 @@ metadata:
   namespace: "{{ .Values.namespace }}"
   name: "{{ .Values.userSecret }}"
 data:
-  "username": "{{ .Values.username | b64encode }}"
-  "password": "{{ .Values.password | b64encode }}"
+  "username": "{{ .Values.username | b64enc }}"
+  "password": "{{ .Values.password | b64enc }}"
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: User
