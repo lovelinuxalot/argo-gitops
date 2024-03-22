@@ -1,8 +1,8 @@
-# external-secrets: {}
-# kyverno: {}
-reloader:
-  podMonitor:
-    enabled: true
-external-dns: {}
-cert-manager:
-  installCRDs: false
+# # external-secrets: {}
+# # kyverno: {}
+# reloader:
+#   podMonitor:
+#     enabled: true
+# external-dns: {}
+# cert-manager:
+#   installCRDs: false

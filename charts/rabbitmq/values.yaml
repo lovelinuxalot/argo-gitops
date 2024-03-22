@@ -1,0 +1,20 @@
+
+# rabbitmq: {}
+cluster: "default"
+namespace: "default"
+replicas: 1
+persistence: {}
+
+vhost: default
+
+topic: default-topic
+subscription: default-subscription
+
+username: user
+password: password
+
+userSecret: message-broker
+
+readPermissions: ".*"
+writePermissions: ".*"
+configurePermissions: ".*"

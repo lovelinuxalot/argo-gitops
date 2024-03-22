@@ -1,40 +1,41 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: monitoring
-  annotations:
-    argocd.argoproj.io/sync-wave: "3"
-spec:
-  generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                # - addonChart: prometheus
-                - addonChart: promtail
-          - clusters: {}
-  template:
-    metadata:
-      name: "{{name}}-{{addonChart}}"
-    spec:
-      project: default
-      source:
-        helm:
-          valueFiles:
-            - "../../clusters/common/monitoring-values.yaml"
-          parameters:
-          - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
-            value: "{{name}}"
-          - name: "promtail.config.snippets.extraRelabelConfigs[1].replacement"
-            value: "{{name}}"
-        repoURL: "https://github.com/lovelinuxalot/argo-gitops"
-        path: charts/{{addonChart}}
-        targetRevision: HEAD
-      destination:
-        namespace: "monitoring"
-        name: "{{name}}"
-      syncPolicy:
-        automated: {}
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true # Big CRDs.
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: monitoring
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "3"
+# spec:
+#   generators:
+#     - matrix:
+#         generators:
+#           - list:
+#               elements:
+#                 # - addonChart: prometheus
+#                 - addonChart: promtail
+#                 - addonChart: prometheus-fullstack
+#           - clusters: {}
+#   template:
+#     metadata:
+#       name: "{{name}}-{{addonChart}}"
+#     spec:
+#       project: default
+#       source:
+#         helm:
+#           valueFiles:
+#             - "../../clusters/common/monitoring-values.yaml"
+#           parameters:
+#           - name: "prometheus.prometheus.prometheusSpec.serviceMonitor.externalLabels.cluster"
+#             value: "{{name}}"
+#           - name: "promtail.config.snippets.extraRelabelConfigs[1].replacement"
+#             value: "{{name}}"
+#         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
+#         path: charts/{{addonChart}}
+#         targetRevision: HEAD
+#       destination:
+#         namespace: "monitoring"
+#         name: "{{name}}"
+#       syncPolicy:
+#         automated: {}
+#         syncOptions:
+#           - CreateNamespace=true
+#           - ServerSideApply=true # Big CRDs.

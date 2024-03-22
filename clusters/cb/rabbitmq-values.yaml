@@ -1,0 +1,11 @@
+rabbitmq:
+  clusterOperator:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: false
+  msgTopologyOperator:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: false

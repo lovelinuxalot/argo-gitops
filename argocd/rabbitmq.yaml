@@ -1,33 +1,34 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: addons
+  name: rabbitmq
   annotations:
-    argocd.argoproj.io/sync-wave: "5"
+    argocd.argoproj.io/sync-wave: "6"
 spec:
   generators:
-    - matrix:
-        generators:
-          - list:
-              elements:
-                - addonChart: reloader
-          - clusters: {}
+    - clusters:
+        selector:
+          matchExpressions:
+            - {
+                key: "a52-filia/cluster-name",
+                operator: In,
+                values: [cb, fsp],
+              }
   template:
     metadata:
-      name: "\{\{addonChart\}\}"
+      name: "{{name}}-rabbitmq"
     spec:
       project: default
       source:
         helm:
-          valuesObject:
-            {{ toYaml .Values.system.reloader | nindent 12 }}
-          parameters:
+          valueFiles:
+            - "../../clusters/{{name}}/rabbitmq-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
-        path: charts/reloader
+        path: charts/rabbitmq
         targetRevision: HEAD
       destination:
         namespace: "default"
-        name: "\{\{name\}\}"
+        name: "{{name}}"
       syncPolicy:
         automated: {}
         syncOptions:
