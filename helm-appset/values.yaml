@@ -1,0 +1,5 @@
+# kyverno: {}
+system:
+  reloader:
+    podMonitor:
+      enabled: true
