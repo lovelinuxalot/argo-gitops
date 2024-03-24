@@ -1,20 +1,42 @@
+rabbitmq:
+  clusterOperator:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: false
+  msgTopologyOperator:
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: false
 
-# rabbitmq: {}
 cluster: "default"
 namespace: "default"
 replicas: 1
 persistence: {}
-
-vhost: default
-
-topic: default-topic
-subscription: default-subscription
-
-username: user
-password: password
-
 userSecret: message-broker
 
-readPermissions: ".*"
-writePermissions: ".*"
-configurePermissions: ".*"
+vhosts:
+- name: default
+  exchanges:
+  - name: default-topic
+    autoDelete: false
+    durable: false
+    type: fanout
+  queues:
+  - name: default-queue
+    autoDelete: false
+    durable: false
+  bindings:
+  - source: default-topic
+    destination: default-queue
+    destinationType: queue
+    routingKey: "#"
+  users:
+  - username: user
+    password: password
+    readPermissions: ".*"
+    writePermissions: ".*"
+    configurePermissions: ".*"
+
+

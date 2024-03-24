@@ -1,11 +1,22 @@
-rabbitmq:
-  clusterOperator:
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: false
-  msgTopologyOperator:
-    metrics:
-      enabled: true
-      serviceMonitor:
-        enabled: false
+vhosts:
+- name: cb
+  exchanges:
+  - name: transfers
+    autoDelete: false
+    durable: false
+    type: fanout
+  queues:
+  - name: transfer-queue
+    autoDelete: false
+    durable: false
+  bindings:
+  - source: transfers
+    destination: transfer-queue
+    destinationType: queue
+    routingKey: "#"
+  users:
+  - username: cb-user
+    password: password
+    readPermissions: ".*"
+    writePermissions: ".*"
+    configurePermissions: ".*"

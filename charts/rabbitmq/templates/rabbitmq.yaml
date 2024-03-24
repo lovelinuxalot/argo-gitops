@@ -1,4 +1,5 @@
----
+{{ $namespace := .Values.namespace }}
+{{ $cluster := .Values.cluster }}
 apiVersion: rabbitmq.com/v1beta1
 kind: RabbitmqCluster
 metadata:
@@ -13,95 +14,105 @@ spec:
       - rabbitmq_shovel
       - rabbitmq_shovel_management
 ---
+{{- range $i, $vhost := .Values.vhosts }}
 apiVersion: rabbitmq.com/v1beta1
 kind: Vhost
 metadata:
-  name: "{{ .Values.vhost }}"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ $vhost.name }}"
+  namespace: "{{ $namespace }}"
 spec:
-  name: "{{ .Values.namespace }}"
+  name: "{{ $namespace }}"
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
+{{- range $i, $exchange := $vhost.exchanges }}
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: Exchange
 metadata:
-  name: "{{ .Values.topic }}"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ $exchange.name }}"
+  namespace: "{{ $namespace }}"
 spec:
-  name: "{{ .Values.topic }}"
-  type: fanout
-  autoDelete: false
-  durable: false
+  name: "{{ $exchange.name }}"
+  type: "{{ $exchange.type | default "fanout" }}"
+  autoDelete: {{ $exchange.autoDelete | default false }}
+  durable: {{ $exchange.durable | default false }}
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
-  vhost: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
+  vhost: "{{ $vhost.name }}"
+{{ end -}}
+{{- range $i, $queue := $vhost.queues }}
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: Queue
 metadata:
-  name: "{{ .Values.subscription }}"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ $queue.name }}"
+  namespace: "{{ $namespace }}"
 spec:
-  name: "{{ .Values.subscription }}"
-  autoDelete: false
-  durable: true
+  name: "{{ $queue.name }}"
+  autoDelete: {{ $queue.autoDelete | default false }}
+  durable: {{ $queue.durable | default false }}
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
-  vhost: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
+  vhost: "{{ $vhost.name }}"
+{{ end -}}
+{{- range $i, $binding := $vhost.bindings }}
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: Binding
 metadata:
-  name: subsribe-{{ .Values.subscription }}-to-{{ .Values.topic }}
-  namespace: "{{ .Values.namespace }}"
+  name: "subsribe-{{ $binding.destination }}-to-{{ $binding.source }}"
+  namespace: "{{ $namespace }}"
 spec:
-  source: "{{ .Values.topic }}"
-  destination: "{{ .Values.subscription }}"
-  destinationType: queue
-  routingKey: "#"
+  source: "{{ $binding.source }}"
+  destination: "{{ $binding.destination }}"
+  destinationType: "{{ $binding.destinationType | default "queue" }}"
+  routingKey: "{{ $binding.routingKey | default "#" }}"
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
-  vhost: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
+  vhost: "{{ $vhost.name }}"
+{{ end -}}
+{{- range $i, $user := $vhost.users }}
 ---
 apiVersion: v1
 kind: Secret
 metadata:
-  namespace: "{{ .Values.namespace }}"
-  name: "{{ .Values.userSecret }}"
+  namespace: "{{ $namespace }}"
+  name: "{{ $user.username }}-message-broker-creds"
 data:
-  "username": "{{ .Values.username | b64enc }}"
-  "password": "{{ .Values.password | b64enc }}"
+  "username": "{{ $user.username | b64enc }}"
+  "password": "{{ $user.password | b64enc }}"
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: User
 metadata:
-  name: "{{ .Values.username }}"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ $user.username }}"
+  namespace: "{{ $namespace }}"
 spec:
   tags: []
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
   importCredentialsSecret:
-    name: "{{ .Values.userSecret }}"
+    name: "{{ $user.username }}-message-broker-creds"
 ---
 apiVersion: rabbitmq.com/v1beta1
 kind: Permission
 metadata:
-  name: "{{ .Values.username }}"
-  namespace: "{{ .Values.namespace }}"
+  name: "{{ $user.username }}"
+  namespace: "{{ $namespace }}"
 spec:
-  user: "{{ .Values.username }}"
+  user: "{{ $user.username }}"
   permissions:
-    read: "{{  .Values.readPermissions }}"
-    write: "{{ .Values.writePermissions }}"
-    configure: "{{ .Values.configurePermissions }}"
+    read: "{{  $user.readPermissions }}"
+    write: "{{ $user.writePermissions }}"
+    configure: "{{ $user.configurePermissions }}"
   rabbitmqClusterReference:
-    name: "{{ .Values.cluster }}"
-    namespace: "{{ .Values.namespace }}"
-  vhost: "{{ .Values.namespace }}"
+    name: "{{ $cluster }}"
+    namespace: "{{ $namespace }}"
+  vhost: "{{ $vhost.name }}"
+{{ end -}}
+{{ end -}}
