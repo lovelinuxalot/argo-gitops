@@ -24,12 +24,12 @@ spec:
           valueFiles:
             - "../../clusters/common/ingress-values.yaml"
           parameters:
-          - name: "nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
-            value: "{{name}}"
-          - name: "nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
-            value: "{{name}}"
-          - name: "label"
-            value: "{{metadata.labels.env}}"
+            - name: "ingress-nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
+              value: "{{name}}"
+            - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
+              value: "{{name}}"
+            - name: "ingress-nginx.domain"
+              value: "{{metadata.labels.env}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD

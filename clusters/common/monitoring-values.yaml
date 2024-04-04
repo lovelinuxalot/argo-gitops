@@ -18,6 +18,7 @@ prometheus:
       annotations:
         service.beta.kubernetes.io/azure-load-balancer-internal: "true"
         service.beta.kubernetes.io/azure-load-balancer-internal-subnet: "ingress-internal"
+        #TODO: Add external dns annotation here
     prometheusSpec:
       portName: http
       resources:
