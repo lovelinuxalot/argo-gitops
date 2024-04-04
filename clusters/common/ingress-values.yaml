@@ -1,3 +1,5 @@
 external-dns: {}
 cert-manager:
   installCRDs: false
+ingress-nginx:
+  domain: xxx
