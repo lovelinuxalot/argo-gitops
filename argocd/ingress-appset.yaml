@@ -26,7 +26,7 @@ spec:
           parameters:
             - name: "ingress-nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
               value: "{{name}}"
-            - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
+            - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings[0].replacement"
               value: "{{name}}"
             - name: "ingress-nginx.domain"
               value: "{{metadata.labels.env}}"
