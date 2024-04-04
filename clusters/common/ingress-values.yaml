@@ -2,4 +2,71 @@ external-dns: {}
 cert-manager:
   installCRDs: false
 ingress-nginx:
-  domain: xxx
+  rbac:
+    create: true
+  controller:
+    admissionWebhooks:
+      timeoutSeconds: 30
+    ingressClassResource:
+      name: public
+    replicaCount: 1
+    service:
+      externalTrafficPolicy: Local
+      external:
+        enabled: true
+      annotations:
+        "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"
+        # Azure seems to ignore this annotation although clearly documented, file a bug report?
+        # https://docs.microsoft.com/en-us/azure/aks/load-balancer-standard#additional-customizations-via-kubernetes-annotations
+        # https://github.com/MicrosoftDocs/azure-docs/issues/18204
+        "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
+      internal:
+        enabled: false
+    publishService:
+      enabled: true
+    ingressClass: public
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "180Mi"
+      requests:
+        cpu: "100m"
+        memory: "90Mi"
+    autoscaling:
+      enabled: false
+      minReplicas: 1
+      maxReplicas: 10
+      targetCPUUtilizationPercentage: 40
+      targetMemoryUtilizationPercentage: 50
+      behavior:
+        scaleDown:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent
+              value: 40
+              periodSeconds: 60
+        scaleUp:
+          stabilizationWindowSeconds: 300
+          policies:
+            - type: Percent
+              value: 40
+              periodSeconds: 60
+    metrics:
+      enabled: true
+      serviceMonitor:
+        enabled: true
+        namespace: "ingress"
+        additionalLabels:
+          release: prometheus
+          # suite: "{{ suite }}"
+          filia/metrics: prometheus
+        metricRelabelings:
+          - action: replace
+            # replacement: "{{ suite }}"
+            targetLabel: suite
+        targetLabels:
+          - suite
+  defaultBackend:
+    enabled: false
+  ingressClassResource:
+    name: "public"
