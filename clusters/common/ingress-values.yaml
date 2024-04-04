@@ -1,6 +1,7 @@
 external-dns: {}
 cert-manager:
   installCRDs: false
+# Values are here because the values passed from appset parameters are kinda crappy when values are in charts/values.yaml
 ingress-nginx:
   rbac:
     create: true
@@ -25,6 +26,7 @@ ingress-nginx:
     publishService:
       enabled: true
     ingressClass: public
+    lola: *domain
     resources:
       limits:
         cpu: "200m"
@@ -60,6 +62,7 @@ ingress-nginx:
           release: prometheus
           # suite: "{{ suite }}"
           filia/metrics: prometheus
+          miu: *domain
         metricRelabelings:
           - action: replace
             # replacement: "{{ suite }}"
