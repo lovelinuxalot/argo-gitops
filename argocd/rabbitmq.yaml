@@ -1,36 +1,36 @@
-apiVersion: argoproj.io/v1alpha1
-kind: ApplicationSet
-metadata:
-  name: rabbitmq
-  annotations:
-    argocd.argoproj.io/sync-wave: "6"
-spec:
-  generators:
-    - clusters:
-        selector:
-          matchExpressions:
-            - {
-                key: "a52-filia/cluster-name",
-                operator: In,
-                values: [cb, fsp],
-              }
-  template:
-    metadata:
-      name: "{{name}}-rabbitmq"
-    spec:
-      project: default
-      source:
-        helm:
-          valueFiles:
-            - "../../clusters/{{name}}/rabbitmq-values.yaml"
-        repoURL: "https://github.com/lovelinuxalot/argo-gitops"
-        path: charts/rabbitmq
-        targetRevision: HEAD
-      destination:
-        namespace: "default"
-        name: "{{name}}"
-      syncPolicy:
-        automated: {}
-        syncOptions:
-          - CreateNamespace=true
-          - ServerSideApply=true # Big CRDs.
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: rabbitmq
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "6"
+# spec:
+#   generators:
+#     - clusters:
+#         selector:
+#           matchExpressions:
+#             - {
+#                 key: "a52-filia/cluster-name",
+#                 operator: In,
+#                 values: [cb, fsp],
+#               }
+#   template:
+#     metadata:
+#       name: "{{name}}-rabbitmq"
+#     spec:
+#       project: default
+#       source:
+#         helm:
+#           valueFiles:
+#             - "../../clusters/{{name}}/rabbitmq-values.yaml"
+#         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
+#         path: charts/rabbitmq
+#         targetRevision: HEAD
+#       destination:
+#         namespace: "default"
+#         name: "{{name}}"
+#       syncPolicy:
+#         automated: {}
+#         syncOptions:
+#           - CreateNamespace=true
+#           - ServerSideApply=true # Big CRDs.

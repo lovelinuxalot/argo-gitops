@@ -1,41 +1,43 @@
-# apiVersion: argoproj.io/v1alpha1
-# kind: ApplicationSet
-# metadata:
-#   name: ingress
-#   annotations:
-#     argocd.argoproj.io/sync-wave: "5"
-# spec:
-#   generators:
-#     - matrix:
-#         generators:
-#           - list:
-#               elements:
-#                 # - addonChart: external-dns
-#                 - addonChart: cert-manager
-#                 # - addonChart: ingress-nginx
-#           - clusters: {}
-#   template:
-#     metadata:
-#       name: "{{name}}-{{addonChart}}"
-#     spec:
-#       project: default
-#       source:
-#         helm:
-#           valueFiles:
-#             - "../../clusters/common/ingress-values.yaml"
-#           parameters:
-#           - name: "nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
-#             value: "{{name}}"
-#           - name: "nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
-#             value: "{{name}}"
-#         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
-#         path: charts/{{addonChart}}
-#         targetRevision: HEAD
-#       destination:
-#         namespace: "ingress"
-#         name: "{{name}}"
-#       syncPolicy:
-#         automated: {}
-#         syncOptions:
-#           - CreateNamespace=true
-#           - ServerSideApply=true # Big CRDs.
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: ingress
+  annotations:
+    argocd.argoproj.io/sync-wave: "5"
+spec:
+  generators:
+    - matrix:
+        generators:
+          - list:
+              elements:
+                # - addonChart: external-dns
+                # - addonChart: cert-manager
+                - addonChart: ingress-nginx
+          - clusters: {}
+  template:
+    metadata:
+      name: "{{name}}-{{addonChart}}"
+    spec:
+      project: default
+      source:
+        helm:
+          valueFiles:
+            - "../../clusters/common/ingress-values.yaml"
+          parameters:
+          - name: "nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
+            value: "{{name}}"
+          - name: "nginx.controller.metrics.serviceMonitor.metricRelabelings.replacement"
+            value: "{{name}}"
+          - name: "label"
+            value: "{{metadata.labels.env}}"
+        repoURL: "https://github.com/lovelinuxalot/argo-gitops"
+        path: charts/{{addonChart}}
+        targetRevision: HEAD
+      destination:
+        namespace: "ingress"
+        name: "{{name}}"
+      syncPolicy:
+        automated: {}
+        syncOptions:
+          - CreateNamespace=true
+          - ServerSideApply=true # Big CRDs.
