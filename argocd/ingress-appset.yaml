@@ -13,7 +13,14 @@ spec:
                 # - addonChart: external-dns
                 # - addonChart: cert-manager
                 - addonChart: ingress-nginx
-          - clusters: {}
+          - clusters:
+              selector:
+                matchExpressions:
+                  - {
+                      key: "a52-filia/cluster-name",
+                      operator: In,
+                      values: [cb],
+                    }
   template:
     metadata:
       name: "{{name}}-{{addonChart}}"
@@ -22,14 +29,8 @@ spec:
       source:
         helm:
           valueFiles:
-            - "../../clusters/common/ingress-values.yaml"
-          parameters:
-            - name: "ingress-nginx.controller.metrics.serviceMonitor.additionalLabels.suite"
-              value: "{{name}}"
-            - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings[0].replacement"
-              value: "{{name}}"
-            - name: "ingress-nginx.domain"
-              value: "{{metadata.labels.env}}"
+            - "../../clusters/{{name}}/ingress-values.yaml"
+            - "../../environments/{{metadata.labels.env}}/{{name}}/ingress-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
