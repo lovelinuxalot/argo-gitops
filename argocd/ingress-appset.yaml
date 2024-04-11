@@ -29,7 +29,7 @@ spec:
             - name: "ingress-nginx.controller.metrics.serviceMonitor.metricRelabelings[0].replacement"
               value: "{{name}}"
             - name: "ingress-nginx.domain"
-              value: &domain "{{metadata.labels.env}}"
+              value: "{{metadata.labels.env}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
