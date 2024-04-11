@@ -26,7 +26,6 @@ ingress-nginx:
     publishService:
       enabled: true
     ingressClass: public
-    lola: *domain
     resources:
       limits:
         cpu: "200m"
@@ -57,7 +56,6 @@ ingress-nginx:
       enabled: true
       serviceMonitor:
         enabled: true
-        namespace: "zxczczvzv"
         additionalLabels:
           release: prometheus
           suite: "cb"
@@ -68,6 +66,7 @@ ingress-nginx:
             targetLabel: suite
         targetLabels:
           - suite
+        namespace: default
   defaultBackend:
     enabled: false
   ingressClassResource:
