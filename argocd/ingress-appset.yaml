@@ -35,7 +35,7 @@ spec:
         path: charts/{{addonChart}}
         targetRevision: HEAD
       destination:
-        namespace: "ingress"
+        namespace: "default"
         name: "{{name}}"
       syncPolicy:
         automated: {}
