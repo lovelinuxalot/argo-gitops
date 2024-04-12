@@ -3,3 +3,9 @@
 #   controller:
 #     image:
 #       tag: ""
+
+
+ingress-nginx:
+  controller:
+    image:
+      tag: *appversion
