@@ -5,8 +5,8 @@ metadata:
   annotations:
     argocd.argoproj.io/sync-wave: "5"
 spec:
-  # goTemplate: true
-  # goTemplateOptions: ["missingkey=error"]
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
   generators:
     - matrix:
         generators:
@@ -30,11 +30,11 @@ spec:
                   revision: HEAD
                   files:
                   - path: environments/*/versions.yaml
-              - git:
-                  repoURL: https://github.com/lovelinuxalot/argo-gitops
-                  revision: HEAD
-                  files:
-                  - path: releases/*.yaml
+              # - git:
+              #     repoURL: https://github.com/lovelinuxalot/argo-gitops
+              #     revision: HEAD
+              #     files:
+              #     - path: releases/*.yaml
 
   template:
     metadata:
