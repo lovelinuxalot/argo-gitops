@@ -21,6 +21,11 @@ spec:
                       operator: In,
                       values: [cb],
                     }
+          - git:
+              repoURL: https://github.com/lovelinuxalot/argo-gitops
+              revision: HEAD
+              directories:
+              - path: environments/*
   template:
     metadata:
       name: "{{name}}-{{addonChart}}"
@@ -30,7 +35,7 @@ spec:
         helm:
           valueFiles:
             - "../../clusters/{{name}}/ingress-values.yaml"
-            - "../../environments/{{metadata.labels.env}}/{{name}}/ingress-values.yaml"
+            - "../../environments/{{.path.basename}}/{{name}}/ingress-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/{{addonChart}}
         targetRevision: HEAD
