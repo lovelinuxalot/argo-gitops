@@ -31,7 +31,7 @@ spec:
                   repoURL: https://github.com/lovelinuxalot/argo-gitops
                   revision: HEAD
                   files:
-                  - path: releases/{{.versions.release}}.yaml
+                  - path: releases/{{.versions}}.yaml
               - clusters:
                 selector:
                   matchExpressions:
@@ -57,7 +57,7 @@ spec:
             - name: ingress-nginx.controller.image.tag
               value: "{{ .versions.ingress_nginx }}"
             - name: release_version
-              value: "{{ .versions.release }}"
+              value: "{{ .versions }}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
