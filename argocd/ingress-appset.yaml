@@ -26,7 +26,7 @@ spec:
                       operator: In,
                       values: [cb],
                     }
-          
+
   template:
     metadata:
       name: "{{name}}-ingress-nginx"
@@ -37,7 +37,7 @@ spec:
           valueFiles:
             - "../../clusters/{{name}}/ingress-values.yaml"
             - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
-
+            - "../../environments/{{path.basename}}/versions.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
