@@ -13,6 +13,11 @@ spec:
           #       # - addonChart: external-dns
           #       # - addonChart: cert-manager
           #       - addonChart: ingress-nginx
+          - git:
+              repoURL: https://github.com/lovelinuxalot/argo-gitops
+              revision: HEAD
+              directories:
+              - path: environments/*
           - clusters:
               selector:
                 matchExpressions:
@@ -21,11 +26,7 @@ spec:
                       operator: In,
                       values: [cb],
                     }
-          - git:
-              repoURL: https://github.com/lovelinuxalot/argo-gitops
-              revision: HEAD
-              directories:
-              - path: environments/*
+          
   template:
     metadata:
       name: "{{name}}-ingress-nginx"
@@ -35,7 +36,7 @@ spec:
         helm:
           valueFiles:
             - "../../clusters/{{name}}/ingress-values.yaml"
-            - "../../environments/{{.path.basename}}/{{name}}/ingress-values.yaml"
+            - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
