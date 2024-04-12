@@ -10,3 +10,5 @@ ingress-nginx:
       requests:
         cpu: "50m"
         memory: "90Mi"
+    image:
+      tag: *versions.ingress-nginx
