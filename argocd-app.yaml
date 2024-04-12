@@ -16,4 +16,7 @@ spec:
     directory:
       recurse: true
   syncPolicy:
-    automated: {}
+    automated:
+      selfHeal: true
+    syncOptions:
+    - ApplyOutOfSyncOnly=true

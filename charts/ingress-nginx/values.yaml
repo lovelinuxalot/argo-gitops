@@ -7,7 +7,7 @@ ingress-nginx:
       timeoutSeconds: 30
     ingressClassResource:
       name: public
-    replicaCount: 2
+    replicaCount: 1
     service:
       externalTrafficPolicy: Local
       external:
