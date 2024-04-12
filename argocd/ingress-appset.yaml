@@ -29,7 +29,7 @@ spec:
               repoURL: https://github.com/lovelinuxalot/argo-gitops
               revision: HEAD
               files:
-              - path: releases/*.yaml
+              - path: releases/{{ .versions.release }}.yaml
 
   template:
     metadata:
