@@ -24,7 +24,7 @@ spec:
                     repoURL: https://github.com/lovelinuxalot/argo-gitops
                     revision: HEAD
                     files:
-                    - path: environments/*/versions.yaml
+                    - path: environments/{{.metadata.labels.env}}/versions.yaml
           - git:
               repoURL: https://github.com/lovelinuxalot/argo-gitops
               revision: HEAD
