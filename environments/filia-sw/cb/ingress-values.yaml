@@ -3,9 +3,9 @@ ingress-nginx:
     resources:
       limits:
         cpu: "100m"
-        memory: "120Mi"
+        memory: "512Mi"
       requests:
         cpu: "50m"
-        memory: "90Mi"
+        memory: "256Mi"
     metrics:
       enabled: false
