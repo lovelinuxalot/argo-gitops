@@ -25,13 +25,11 @@ spec:
                     revision: HEAD
                     files:
                     - path: environments/*/versions.yaml
-                    values:
-                      version_number: "{{.versions.release}}"
           - git:
               repoURL: https://github.com/lovelinuxalot/argo-gitops
               revision: HEAD
               files:
-              - path: releases/{{.values.version_number}}.yaml
+              - path: releases/*.yaml
 
   # generators:
   #   - matrix:
