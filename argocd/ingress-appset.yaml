@@ -1,18 +1,18 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ApplicationSet
 metadata:
-  name: ingress
+  name: ingress-nginx
   annotations:
     argocd.argoproj.io/sync-wave: "5"
 spec:
   generators:
     - matrix:
         generators:
-          - list:
-              elements:
-                # - addonChart: external-dns
-                # - addonChart: cert-manager
-                - addonChart: ingress-nginx
+          # - list:
+          #     elements:
+          #       # - addonChart: external-dns
+          #       # - addonChart: cert-manager
+          #       - addonChart: ingress-nginx
           - clusters:
               selector:
                 matchExpressions:
@@ -28,7 +28,7 @@ spec:
               - path: environments/*
   template:
     metadata:
-      name: "{{name}}-{{addonChart}}"
+      name: "{{name}}-ingress-nginx"
     spec:
       project: default
       source:
@@ -37,7 +37,7 @@ spec:
             - "../../clusters/{{name}}/ingress-values.yaml"
             - "../../environments/{{.path.basename}}/{{name}}/ingress-values.yaml"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
-        path: charts/{{addonChart}}
+        path: charts/ingress-nginx
         targetRevision: HEAD
       destination:
         namespace: "default"
