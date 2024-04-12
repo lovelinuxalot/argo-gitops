@@ -10,14 +10,11 @@ spec:
   generators:
     - matrix:
         generators:
-          - clusters:
-              selector:
-                matchExpressions:
-                  - {
-                      key: "a52-filia/cluster-name",
-                      operator: In,
-                      values: [cb],
-                    }
+          - git:
+              repoURL: https://github.com/lovelinuxalot/argo-gitops
+              revision: HEAD
+              files:
+              - path: environments/*/versions.yaml
           # - git:
           #     repoURL: https://github.com/lovelinuxalot/argo-gitops
           #     revision: HEAD
@@ -34,12 +31,16 @@ spec:
                   repoURL: https://github.com/lovelinuxalot/argo-gitops
                   revision: HEAD
                   files:
-                  - path: environments/*/versions.yaml
-              - git:
-                  repoURL: https://github.com/lovelinuxalot/argo-gitops
-                  revision: HEAD
-                  files:
-                  - path: releases/*.yaml
+                  - path: releases/{{.name}}.yaml
+              - clusters:
+                selector:
+                  matchExpressions:
+                    - {
+                        key: "a52-filia/cluster-name",
+                        operator: In,
+                        values: [cb, fsp],
+                      }
+
 
   template:
     metadata:
