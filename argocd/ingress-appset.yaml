@@ -18,18 +18,23 @@ spec:
                       operator: In,
                       values: [cb],
                     }
+          - git:
+              repoURL: https://github.com/lovelinuxalot/argo-gitops
+              revision: HEAD
+              files:
+              - path: environments/*/versions.yaml
           # - list:
           #     elements:
           #       # - addonChart: external-dns
           #       # - addonChart: cert-manager
           #       - addonChart: ingress-nginx
-          - matrix:
-              generators:
-              - git:
-                  repoURL: https://github.com/lovelinuxalot/argo-gitops
-                  revision: HEAD
-                  files:
-                  - path: environments/*/versions.yaml
+          # - matrix:
+          #     generators:
+          #     - git:
+          #         repoURL: https://github.com/lovelinuxalot/argo-gitops
+          #         revision: HEAD
+          #         files:
+          #         - path: environments/*/versions.yaml
               # - git:
               #     repoURL: https://github.com/lovelinuxalot/argo-gitops
               #     revision: HEAD
