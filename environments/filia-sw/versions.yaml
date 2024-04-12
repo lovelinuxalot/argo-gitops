@@ -1,2 +1,1 @@
-versions:
-  release: "1.2.3"
+versions.release: "1.2.3"
