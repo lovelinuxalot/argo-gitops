@@ -42,7 +42,7 @@ spec:
             - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
           parameters:
             - name: "version"
-              value: "{{ .versions.release }}"
+              value: "{{ versions.release }}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
