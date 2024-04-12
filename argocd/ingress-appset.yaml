@@ -17,7 +17,7 @@ spec:
               repoURL: https://github.com/lovelinuxalot/argo-gitops
               revision: HEAD
               directories:
-              - path: environments/*
+              - path: environments/**
           - clusters:
               selector:
                 matchExpressions:
