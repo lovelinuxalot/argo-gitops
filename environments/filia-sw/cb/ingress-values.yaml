@@ -1,8 +1,5 @@
 ingress-nginx:
   controller:
-    service:
-      external:
-        env: filia-sw
     resources:
       limits:
         cpu: "100m"
@@ -10,5 +7,5 @@ ingress-nginx:
       requests:
         cpu: "50m"
         memory: "90Mi"
-    # image:
-    #   tag: *appversion
+    metrics:
+      enabled: false

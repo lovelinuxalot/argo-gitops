@@ -5,6 +5,7 @@ cert-manager:
 ingress-nginx:
   rbac:
     create: true
+  controller:
     admissionWebhooks:
       timeoutSeconds: 30
     ingressClassResource:
