@@ -20,6 +20,7 @@ spec:
               revision: HEAD
               files:
               - path: environments/*/versions.yaml
+              - path: releases/*.yaml
           - clusters:
               selector:
                 matchExpressions:
