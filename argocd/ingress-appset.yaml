@@ -43,15 +43,15 @@ spec:
 
   template:
     metadata:
-      name: "{{name}}-ingress-nginx"
+      name: "{{.name}}-ingress-nginx"
     spec:
       project: default
       source:
         helm:
           valueFiles:
             - "values.yaml"
-            - "../../clusters/{{name}}/ingress-values.yaml"
-            - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
+            - "../../clusters/{{.name}}/ingress-values.yaml"
+            - "../../environments/{{path.basename}}/{{.name}}/ingress-values.yaml"
             - "../../releases/{{ versions.release }}.yaml"
           parameters:
             - name: version
@@ -61,7 +61,7 @@ spec:
         targetRevision: HEAD
       destination:
         namespace: "default"
-        name: "{{name}}"
+        name: "{{.name}}"
       syncPolicy:
         automated: {}
         syncOptions:
