@@ -10,17 +10,6 @@ spec:
   generators:
     - matrix:
         generators:
-          # - list:
-          #     elements:
-          #       # - addonChart: external-dns
-          #       # - addonChart: cert-manager
-          #       - addonChart: ingress-nginx
-          - git:
-              repoURL: https://github.com/lovelinuxalot/argo-gitops
-              revision: HEAD
-              files:
-              - path: environments/*/versions.yaml
-              - path: releases/*.yaml
           - clusters:
               selector:
                 matchExpressions:
@@ -29,6 +18,23 @@ spec:
                       operator: In,
                       values: [cb],
                     }
+          # - list:
+          #     elements:
+          #       # - addonChart: external-dns
+          #       # - addonChart: cert-manager
+          #       - addonChart: ingress-nginx
+          - matrix:
+              generators:
+              - git:
+                  repoURL: https://github.com/lovelinuxalot/argo-gitops
+                  revision: HEAD
+                  files:
+                  - path: environments/*/versions.yaml
+              - git:
+                  repoURL: https://github.com/lovelinuxalot/argo-gitops
+                  revision: HEAD
+                  files:
+                  - path: releases/*.yaml
 
   template:
     metadata:
