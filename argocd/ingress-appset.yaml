@@ -10,38 +10,64 @@ spec:
   generators:
     - matrix:
         generators:
-          - clusters:
-              selector:
-                matchExpressions:
-                  - {
-                      key: "a52-filia/cluster-name",
-                      operator: In,
-                      values: [cb, fsp],
-                    }
-          # - git:
-          #     repoURL: https://github.com/lovelinuxalot/argo-gitops
-          #     revision: HEAD
-          #     files:
-          #     - path: environments/*/versions.yaml
-          # - list:
-          #     elements:
-          #       # - addonChart: external-dns
-          #       # - addonChart: cert-manager
-          #       - addonChart: ingress-nginx
           - matrix:
               generators:
-              - git:
-                  repoURL: https://github.com/lovelinuxalot/argo-gitops
-                  revision: HEAD
-                  files:
-                  - path: environments/*/versions.yaml
-                  values:
-                    version_number: "{{.versions.release}}"
-              - git:
-                  repoURL: https://github.com/lovelinuxalot/argo-gitops
-                  revision: HEAD
-                  files:
-                  - path: releases/{{.values.version_number}}.yaml
+                - clusters:
+                    selector:
+                      matchExpressions:
+                        - {
+                            key: "a52-filia/cluster-name",
+                            operator: In,
+                            values: [cb, fsp],
+                          }
+                - git:
+                    repoURL: https://github.com/lovelinuxalot/argo-gitops
+                    revision: HEAD
+                    files:
+                    - path: environments/*/versions.yaml
+                    values:
+                      version_number: "{{.versions.release}}"
+          - git:
+              repoURL: https://github.com/lovelinuxalot/argo-gitops
+              revision: HEAD
+              files:
+              - path: releases/{{.values.version_number}}.yaml
+
+  # generators:
+  #   - matrix:
+  #       generators:
+  #         - clusters:
+  #             selector:
+  #               matchExpressions:
+  #                 - {
+  #                     key: "a52-filia/cluster-name",
+  #                     operator: In,
+  #                     values: [cb, fsp],
+  #                   }
+  #         # - git:
+  #         #     repoURL: https://github.com/lovelinuxalot/argo-gitops
+  #         #     revision: HEAD
+  #         #     files:
+  #         #     - path: environments/*/versions.yaml
+  #         # - list:
+  #         #     elements:
+  #         #       # - addonChart: external-dns
+  #         #       # - addonChart: cert-manager
+  #         #       - addonChart: ingress-nginx
+  #         - matrix:
+  #             generators:
+  #             - git:
+  #                 repoURL: https://github.com/lovelinuxalot/argo-gitops
+  #                 revision: HEAD
+  #                 files:
+  #                 - path: environments/*/versions.yaml
+  #                 values:
+  #                   version_number: "{{.versions.release}}"
+  #             - git:
+  #                 repoURL: https://github.com/lovelinuxalot/argo-gitops
+  #                 revision: HEAD
+  #                 files:
+  #                 - path: releases/{{.values.version_number}}.yaml
               
 
 
