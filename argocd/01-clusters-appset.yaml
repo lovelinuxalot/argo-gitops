@@ -1,0 +1,29 @@
+# apiVersion: argoproj.io/v1alpha1
+# kind: ApplicationSet
+# metadata:
+#   name: clusters
+#   annotations:
+#     argocd.argoproj.io/sync-wave: "1"
+# spec:
+#   generators:
+#   - clusters: {}
+#   # - clusters:
+#   #     selector:
+#   #       matchExpressions:
+#   #       - {key: 'akuity.io/argo-cd-cluster-name', operator: NotIn, values: [in-cluster]}
+#   template:
+#     metadata:
+#       name: 'cluster-{{name}}'
+#     spec:
+#       project: default
+#       source:
+#         repoURL: https://github.com/lovelinuxalot/argo-gitops
+#         targetRevision: HEAD
+#         path: 'clusters/common'
+#         directory:
+#           recurse: true
+#       destination:
+#         name: '{{name}}'
+#         namespace: '*'
+#       syncPolicy:
+#         automated: {}
