@@ -35,8 +35,10 @@ spec:
       source:
         helm:
           valueFiles:
+            - "values.yaml"
             - "../../clusters/{{name}}/ingress-values.yaml"
             - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
+            - "../../releases/{{ versions.release }}.yaml"
           parameters:
             - name: "version"
               value: "{{ versions.release }}"
