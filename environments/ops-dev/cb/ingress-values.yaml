@@ -1,0 +1,11 @@
+ingress-nginx:
+  controller:
+    resources:
+      limits:
+        cpu: "100m"
+        memory: "512Mi"
+      requests:
+        cpu: "50m"
+        memory: "256Mi"
+    metrics:
+      enabled: false

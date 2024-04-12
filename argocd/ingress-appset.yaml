@@ -56,6 +56,8 @@ spec:
           parameters:
             - name: ingress-nginx.controller.image.tag
               value: "{{ .versions.ingress_nginx }}"
+            - name: release_version
+              value: "{{ .versions.release }}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
