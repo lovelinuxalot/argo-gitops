@@ -31,7 +31,7 @@ spec:
                   repoURL: https://github.com/lovelinuxalot/argo-gitops
                   revision: HEAD
                   files:
-                  - path: releases/{{.versions}}.yaml
+                  - path: releases/*.yaml
               - clusters:
                   selector:
                     matchExpressions:
