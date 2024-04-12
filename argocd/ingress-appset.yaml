@@ -18,7 +18,6 @@ spec:
               revision: HEAD
               directories:
               - path: environments/*/versions.yaml
-              - path: releases/*.yaml
           - clusters:
               selector:
                 matchExpressions:
@@ -38,6 +37,9 @@ spec:
           valueFiles:
             - "../../clusters/{{name}}/ingress-values.yaml"
             - "../../environments/{{path.basename}}/{{name}}/ingress-values.yaml"
+          parameters:
+            - name: version
+              value: "{{versions.name}}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
         targetRevision: HEAD
