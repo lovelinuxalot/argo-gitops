@@ -53,7 +53,7 @@ spec:
             - "../../clusters/{{.name}}/ingress-values.yaml"
             - "../../environments/{{.path.basename}}/{{.name}}/ingress-values.yaml"
           parameters:
-            - name: version
+            - name: ingress-nginx.controller.image.tag
               value: "{{ .versions.ingress_nginx }}"
         repoURL: "https://github.com/lovelinuxalot/argo-gitops"
         path: charts/ingress-nginx
