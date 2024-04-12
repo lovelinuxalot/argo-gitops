@@ -16,9 +16,6 @@ spec:
           - git:
               repoURL: https://github.com/lovelinuxalot/argo-gitops
               revision: HEAD
-              directories:
-              - path: environments/*
-              - path: releases/*
               files:
               - path: environments/*/versions.yaml
           - clusters:
