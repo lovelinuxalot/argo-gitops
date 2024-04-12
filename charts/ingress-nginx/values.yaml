@@ -5,7 +5,7 @@
 #       tag: ""
 
 
-ingress-nginx:
-  controller:
-    image:
-      tag: *appversion
+# ingress-nginx:
+#   controller:
+#     image:
+#       tag: *appversion
