@@ -33,13 +33,13 @@ spec:
                   files:
                   - path: releases/{{.versions}}.yaml
               - clusters:
-                selector:
-                  matchExpressions:
-                    - {
-                        key: "a52-filia/cluster-name",
-                        operator: In,
-                        values: [cb, fsp],
-                      }
+                  selector:
+                    matchExpressions:
+                      - {
+                          key: "a52-filia/cluster-name",
+                          operator: In,
+                          values: [cb, fsp],
+                        }
 
 
   template:
