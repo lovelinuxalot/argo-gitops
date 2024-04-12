@@ -18,6 +18,7 @@ spec:
               revision: HEAD
               directories:
               - path: environments/*
+              - path: environments/*/*.yaml
           - clusters:
               selector:
                 matchExpressions:
