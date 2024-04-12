@@ -15,6 +15,8 @@ spec:
               revision: HEAD
               files:
               - path: environments/*/versions.yaml
+              values:
+                version_number: "{{.versions.release}}"
           # - git:
           #     repoURL: https://github.com/lovelinuxalot/argo-gitops
           #     revision: HEAD
@@ -31,7 +33,7 @@ spec:
                   repoURL: https://github.com/lovelinuxalot/argo-gitops
                   revision: HEAD
                   files:
-                  - path: releases/{{.versions.release}}.yaml
+                  - path: releases/{{.values.version_number}}.yaml
               - clusters:
                   selector:
                     matchExpressions:
